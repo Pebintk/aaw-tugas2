@@ -14,7 +14,7 @@ import (
 func main() {
 	w := &kafka.Writer{
 		Addr:     kafka.TCP("localhost:9092"),
-		Topic:    "pertanyaan-tutorial",
+		Topic:    "tugas-a2",
 		Balancer: &kafka.LeastBytes{},
 	}
 	defer w.Close()

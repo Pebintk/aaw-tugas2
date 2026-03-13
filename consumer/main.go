@@ -5,7 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"log"
-
+	"time"
 	"github.com/segmentio/kafka-go"
 
 	"kafka-a2/helper"
@@ -15,12 +15,14 @@ import (
 func main() {
 	r := kafka.NewReader(kafka.ReaderConfig{
 		Brokers: []string{"localhost:9092"},
-		Topic:   "pertanyaan-tutorial",
-		GroupID: "consumer-group-1",
+		Topic:   "tugas-a2",
+		GroupID: "login-consumer-1",
 
 		StartOffset: kafka.LastOffset,
 	})
 	defer r.Close()
+
+	fmt.Println(" [*] Login Service menunggu event dari Kafka. Tekan CTRL+C untuk keluar.")
 
 	for {
 		m, err := r.ReadMessage(context.Background())
@@ -37,5 +39,6 @@ func main() {
 		}
 
 		fmt.Printf("Menerima event untuk UserID=%s, EventType=%s, Timestamp=%s\n", event.UserID, event.EventType, event.Timestamp.String())
+		time.Sleep(2 * time.Second)
 	}
 }
