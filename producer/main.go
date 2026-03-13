@@ -3,9 +3,7 @@ package main
 import (
 	"context"
 	"encoding/json"
-	"fmt"
 	"log"
-	// "strings"
 	"time"
 
 	"github.com/segmentio/kafka-go"
@@ -21,11 +19,13 @@ func main() {
 	}
 	defer w.Close()
 
-	for i := 0; i < 10; i++ {
+	users := []string{"alice", "bob", "charlie", "dave", "eve"}
+
+	for _, user := range users {
 		event := helper.UserEvent{
-			UserID:    fmt.Sprintf("user_%d", i),
+			UserID:    user,
 			EventType: "login",
-			Timestamp: time.Now().Unix(),
+			Timestamp: time.Now(),
 		}
 		eventBytes, err := json.Marshal(event)
 		if err != nil {
@@ -35,14 +35,14 @@ func main() {
 
 		err = w.WriteMessages(context.Background(),
 			kafka.Message{
-				Key:   []byte(fmt.Sprintf("user_%d", i)),
+				Key:   []byte(user),
 				Value: eventBytes,
 			},
 		)
 		if err != nil {
 			log.Printf("Error writing message to Kafka: %v", err)
 		} else {
-			log.Printf("Produced event for user %s", event.UserID)
+			log.Printf("Membuat event %s untuk %s", event.EventType, event.UserID)
 		}
 	}
 }

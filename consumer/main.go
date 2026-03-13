@@ -36,6 +36,6 @@ func main() {
 			continue
 		}
 
-		fmt.Printf("Consumed event: UserID=%s, EventType=%s, Timestamp=%d\n", event.UserID, event.EventType, event.Timestamp)
+		fmt.Printf("Menerima event untuk UserID=%s, EventType=%s, Timestamp=%s\n", event.UserID, event.EventType, event.Timestamp.String())
 	}
 }
